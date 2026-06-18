@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://nestjs.com/img/logo-small.svg" width="80" alt="NestJS Logo" />
+</p>
+
 # Fundamentos NestJS — Práctica 01: Configuración e introducción
 
 **Estudiante:** Marco Cobos  
