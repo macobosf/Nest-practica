@@ -1,98 +1,137 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Fundamentos NestJS — Práctica 01: Configuración e introducción
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+**Estudiante:** Marco Cobos  
+**Curso:** Programación y Plataformas Web
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## Tabla de contenidos
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+1. [Verificación de Node.js](#1-verificación-de-nodejs)
+2. [Inicio del servidor NestJS](#2-inicio-del-servidor-nestjs)
+3. [Endpoint /api/status](#3-endpoint-apistatus)
+4. [Estructura del módulo status](#4-estructura-del-módulo-status)
+5. [Reflexión del estudiante](#5-reflexión-del-estudiante)
 
-## Project setup
+---
+
+## 1. Verificación de Node.js
+
+Verificación de la versión de Node.js instalada mediante el comando `node -v`.
 
 ```bash
-$ pnpm install
+node -v
 ```
 
-## Compile and run the project
+![Verificación de Node.js](./assets/Captura%20desde%202026-06-18%2018-00-29.png)
+
+> Node.js v24.15.0 instalado correctamente.
+
+---
+
+## 2. Inicio del servidor NestJS
+
+Arranque del servidor en modo estándar con `pnpm start`.
 
 ```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+pnpm start
 ```
 
-## Run tests
+![Servidor NestJS iniciado](./assets/Captura%20desde%202026-06-18%2018-00-59.png)
+
+El log confirma:
+- `StatusModule` y `AppModule` inicializados correctamente.
+- Ruta `GET /api/status` mapeada por `StatusController`.
+- **Nest application successfully started.**
+
+---
+
+## 3. Endpoint /api/status
+
+Verificación del endpoint en el navegador.
+
+**URL:** `http://localhost:3000/api/status`
+
+![Endpoint /api/status](./assets/Captura%20desde%202026-06-18%2017-57-14.png)
+
+Respuesta JSON devuelta por el servidor:
+
+```json
+{
+  "service": "NestJS API",
+  "status": "running",
+  "timestamp": "2026-06-18T22:32:53.495Z"
+}
+```
+
+---
+
+## 4. Estructura del módulo status
+
+Listado de archivos dentro de `src/status/`.
 
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+ls ./src/status/
 ```
 
-## Deployment
+![Estructura del módulo status](./assets/Captura%20desde%202026-06-18%2018-02-08.png)
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+| Archivo | Descripción |
+|---|---|
+| `status.controller.ts` | Define la ruta `GET /api/status` |
+| `status.controller.spec.ts` | Pruebas unitarias del controlador |
+| `status.module.ts` | Módulo que agrupa el controlador |
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+---
+
+## 5. Reflexión del estudiante
+
+### `@Controller` y `@Get`
+
+`@Controller('api/status')` es un decorador que le indica a NestJS que la clase manejará peticiones HTTP bajo el prefijo `/api/status`. Dentro de esa clase, `@Get()` marca un método para responder a peticiones `GET` en esa ruta. La combinación de ambos define el endpoint completo sin necesidad de registrar rutas manualmente como en Express.
+
+### Módulos en NestJS
+
+Un módulo (`@Module`) es la unidad de organización de la aplicación. Cada módulo declara sus controladores y proveedores, y puede importarse desde otros módulos. El módulo raíz `AppModule` importa `StatusModule`, lo que le permite a NestJS descubrir y registrar automáticamente el `StatusController` y sus rutas al iniciar la aplicación.
+
+### Cómo funciona el servidor NestJS
+
+Al ejecutar `pnpm start`, NestJS construye un grafo de dependencias a partir de los módulos registrados en `AppModule`. Luego levanta un servidor HTTP (por defecto sobre Express) que escucha en el puerto 3000. Cada petición entrante es enrutada al controlador correspondiente según el método HTTP y la ruta declarada con los decoradores.
+
+### Similitudes con Spring Boot
+
+NestJS tiene una correspondencia directa con Spring Boot que facilita su comprensión:
+
+| Spring Boot | NestJS | Función |
+|---|---|---|
+| `@RestController` | `@Controller` | Declara un controlador HTTP |
+| `@GetMapping` | `@Get` | Mapea un método a `GET` |
+| `@SpringBootApplication` | `AppModule` | Punto de entrada y configuración raíz |
+| `@Component` / `@Service` | `@Injectable` | Inyección de dependencias |
+| Módulo Maven/Gradle | Módulo NestJS | Agrupación de componentes |
+
+La principal diferencia es el lenguaje (TypeScript vs Java) y que NestJS usa decoradores de ES en lugar de anotaciones de Java, pero el patrón arquitectónico de controladores, servicios y módulos es prácticamente idéntico.
+
+---
+
+## Instalación y ejecución
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+# Instalar dependencias
+pnpm install
+
+# Modo desarrollo (con recarga automática)
+pnpm start:dev
+
+# Modo estándar
+pnpm start
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## Tecnologías utilizadas
 
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+- Node.js v24.15.0
+- NestJS v11
+- TypeScript v5.7
+- pnpm
