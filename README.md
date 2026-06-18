@@ -88,7 +88,7 @@ ls ./src/status/
 
 ---
 
-## 5. Reflexión del estudiante
+## 5. Comentarios
 
 ### `@Controller` y `@Get`
 
